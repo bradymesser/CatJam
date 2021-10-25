@@ -3,9 +3,9 @@ module.exports = class MediaQueue {
         this.queue = [];
     }
 
-    enqueue(url) {
+    enqueue(url, msg) {
         if (this.queue.findIndex(e => e === url) === -1) {
-            this.queue.push(url);
+            this.queue.push({ url, msg });
         }
     }
 
@@ -16,7 +16,7 @@ module.exports = class MediaQueue {
     }
 
     find(url) {
-        return this.queue.findIndex(e => e === url);
+        return this.queue.findIndex(e => e.url === url);
     }
 
     getLength() {

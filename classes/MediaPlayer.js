@@ -19,8 +19,8 @@ module.exports = class MediaPlayer {
     getPosition(url) {
         return this.queue.find(url);
     }
-    add(url) {
-        this.queue.enqueue(url);
+    add(url, msg) {
+        this.queue.enqueue(url, msg);
     }
 
     next() {
@@ -31,18 +31,16 @@ module.exports = class MediaPlayer {
         if (this.channel) {
             this.connection = await this.channel.join();
             this.playNext();
-        } else {
-            this.lastRequest.reply('Join a channel numb nuts');
         }
     }
 
     playNext() {
         if (this.queue.getLength() > 0) {
             this.isPlaying = true;
-            const url = this.next();
-            const stream = ytdl(url, { filter: 'audioonly' });
+            const req = this.next();
+            const stream = ytdl(req.url, { filter: 'audioonly' });
             this.dispatcher = this.connection.playStream(stream);
-            this.lastRequest.reply(`Playing ${url}`);
+            req.msg.reply(`Playing ${req.url}`);
             this.dispatcher.on('end', () => {
                 this.playNext();
             })

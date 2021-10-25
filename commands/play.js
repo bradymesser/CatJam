@@ -11,6 +11,10 @@ module.exports = {
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;
 
+        if (!channel) {
+            msg.reply('Join a channel numb nuts');
+            return;
+        }
         // If no argument is supplied
         if (!input) {
             msg.reply('Invalid request');
@@ -28,11 +32,10 @@ module.exports = {
 
         if (global.mediaPlayers.has(channel.id)) {
             const q = global.mediaPlayers.get(channel.id);
-            q.add(tempUrl);
+            q.add(tempUrl, msg);
         } else {
             const q = new MediaPlayer(channel);
-            q.add(tempUrl);
-            console.log(q)
+            q.add(tempUrl, msg);
             global.mediaPlayers.set(channel.id, q);
         }
         const player = global.mediaPlayers.get(channel.id);
