@@ -5,4 +5,5 @@ module.exports = {
   Pause: require('./pause'),
   Resume: require('./resume'),
   Help: require('./help'),
+  Leave: require('./leave')
 };
