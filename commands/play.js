@@ -3,7 +3,7 @@ const tempUrl = 'https://www.youtube.com/watch?v=R_uS0aT0bG8'
 module.exports = {
     name: '!play',
     description: 'Play',
-    execute(msg, args) {
+    async execute(msg, args) {
         msg.reply('Playing');
         const channel = msg.member.voiceChannel;
         const isValid = ytdl.validateURL(tempUrl);
