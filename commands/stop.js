@@ -4,6 +4,7 @@ module.exports = {
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         if (channel) {
+            console.log(channel.voiceChannel);
             channel.voiceChannel.end();
         } else {
             msg.reply('Join a channel numb nuts');
