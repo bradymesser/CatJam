@@ -1,20 +1,7 @@
-require('dotenv').config();
-const search = require('youtube-search');
+const yt = require('youtube-search-without-api-key');
 
 module.exports = {
     searchYT: async function (txt) {
-        search(txt, { maxResults: 1, key: process.env.YT_KEY }, (err, results) => {
-            console.log(results)
-            let result = null;
-            if (err) {
-                result = err;
-                return result;
-            }
-            if (results.length) {
-                result = results[0].link;
-                console.log(tempUrl)
-            }
-            return result;
-        })
+        return yt.search(txt);
     }
 }
