@@ -12,6 +12,7 @@
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "^0.0.4",
+    "opusscript": "^0.0.8",
     "ytdl-core": "^4.9.1"
   }
 }
