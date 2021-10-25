@@ -2,6 +2,7 @@
 * Node, initally setup with v17.0.1 but others probably work
 * npm
 * pm2 `npm install -g pm2`
+* ffmpeg (finnicky on windows but can work)
 
 # Setup
 1) Clone this repo
