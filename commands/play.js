@@ -6,7 +6,7 @@ module.exports = {
     name: '!play',
     description: 'Play',
     async execute(msg, args) {
-        let tempUrl = args[0];
+        var tempUrl = args[0];
         const channel = msg.member.voiceChannel;
         const isValid = ytdl.validateURL(tempUrl);
 
@@ -30,6 +30,7 @@ module.exports = {
                 }
             })
         }
+        console.log(channel, tempUrl)
         if (channel && tempUrl) {
             const connection = await channel.join();
             const stream = ytdl(tempUrl, { filter: 'audioonly' });
