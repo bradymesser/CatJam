@@ -1,6 +1,7 @@
 const ytdl = require('ytdl-core');
-const search = require('youtube-search');
+const searchHelper = require('../helpers/yt_search');
 require('dotenv').config();
+
 
 module.exports = {
     name: '!play',
@@ -17,20 +18,21 @@ module.exports = {
         }
         // If the argument is not a valid link, try to search yt for it
         if (!isValid) {
-            tempUrl = null;
-            search(args[0], { maxResults: 1, key: process.env.YT_KEY }, (err, results) => {
-                if (err) {
-                    msg.reply(err);
-                }
-                if (results.length) {
-                    tempUrl = results[0].link;
-                } else {
-                    tempUrl = null;
-                    msg.reply('No results');
-                }
-            })
+            // search(tempUrl, { maxResults: 1, key: process.env.YT_KEY }, (err, results) => {
+            //     console.log(results)
+            //     if (err) {
+            //         msg.reply(err);
+            //     }
+            //     if (results.length) {
+            //         tempUrl = results[0].link;
+            //         console.log(tempUrl)
+            //     } else {
+            //         tempUrl = null;
+            //         msg.reply('No results');
+            //     }
+            // })
+            console.log(await searchHelper.searchYT(tempUrl));
         }
-        console.log(channel, tempUrl)
         if (channel && tempUrl) {
             const connection = await channel.join();
             const stream = ytdl(tempUrl, { filter: 'audioonly' });
