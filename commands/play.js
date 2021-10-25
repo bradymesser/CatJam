@@ -1,12 +1,12 @@
 const ytdl = require('ytdl-core');
 const searchHelper = require('../helpers/yt_search');
-
+const MediaPlayer = require('../classes/MediaPlayer');
 
 module.exports = {
     name: '!play',
     description: 'Play',
     async execute(msg, args) {
-        const input = args[0];
+        const input = args.join(' ');
         const channel = msg.member.voiceChannel;
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;
@@ -26,16 +26,20 @@ module.exports = {
             }
         }
 
-        if (channel) {
-            const connection = await channel.join();
-            const stream = ytdl(tempUrl, { filter: 'audioonly' });
-            const dispatcher = connection.playStream(stream);
-            msg.reply(`Playing ${tempUrl}`);
-            dispatcher.on('end', () => {
-                connection.destroy();
-            })
+        if (global.mediaPlayers.has(channel.id)) {
+            const q = global.mediaPlayers.get(channel.id);
+            q.add(tempUrl);
         } else {
-            msg.reply('Join a channel numb nuts');
+            const q = new MediaPlayer(channel);
+            q.add(tempUrl);
+            console.log(q)
+            global.mediaPlayers.set(channel.id, q);
+        }
+        const player = global.mediaPlayers.get(channel.id);
+        player.setLastRequest(msg);
+        msg.reply(`Added ${tempUrl} to the queue at position ${player.getPosition(tempUrl)}`)
+        if (!player.isPlaying) {
+            player.start();
         }
     },
 };

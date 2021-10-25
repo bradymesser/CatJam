@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 const botCommands = require('./commands');
+global.mediaPlayers = new Map();
 
 Object.keys(botCommands).map(key => {
   bot.commands.set(botCommands[key].name, botCommands[key]);

@@ -1,14 +1,15 @@
 module.exports = {
-    name: '!stop',
-    description: 'Stop',
+    name: '!resume',
+    description: 'Resume',
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         const player = global.mediaPlayers.get(channel.id);
-        if (player) {
+        if (player && !player.isPlaying) {
             player.setLastRequest(msg);
-            player.stop();
+            player.resume();
+            msg.reply("Resuming")
         } else {
-            msg.reply('Nothing to stop');
+            msg.reply('Nothing to resume');
         }
     },
 };
