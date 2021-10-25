@@ -4,7 +4,7 @@ module.exports = {
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         const isPlaying = channel.playing;
-
+        console.log(isPlaying)
         if (!isPlaying) {
             msg.reply('Nothing is playing');
             return;
