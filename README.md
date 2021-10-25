@@ -1,32 +1,18 @@
-# How to Build Your First Discord Bot with Node.js
+# Requirements
+* Node, initally setup with v17.0.1 but others probably work
+* npm
+* pm2 `npm install -g pm2`
 
-Michiel Mulders shows you how to install and set up a new Discord bot, which is made easier thanks to the API offered by the Discord.js package.
+# Setup
+1) Clone this repo
+2) Run `npm install`
+3) If you haven't already, create a bot in discords developer portal https://www.sitepoint.com/discord-bot-node-js/ this guide can help with that
+4) Copy your bots auth token and place it in a .env file at the root of this repo under a variable named `TOKEN` ie `TOKEN=[your key here]`
+5) To start the bot, run `node index.js` at the root of the repo
 
-This is the **advanced branch**, demonstrating how to implement a command handler.
 
-Link to article on SitePoint: [https://www.sitepoint.com/discord-bot-node-js/](https://www.sitepoint.com/discord-bot-node-js/)
-
-## Requirements
-
-- [Node.js](http://nodejs.org/)
-- [Discord](https://discordapp.com/) account
-
-## Installation Steps (if applicable)
-
-1. Clone repo
-2. Run `npm install`
-3. Add Discord credentials in a `.env` file
-3. Run `node index.js`
-4. Interact with your Discord bot via your web browser
-
-## License
-
-SitePoint's code archives and code examples are licensed under the MIT license.
-
-Copyright © 2020 SitePoint
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# How to auto launch the bot on startup
+1) Run `pm2 start index.js` 
+2) Run `pm2 startup` and follow the instructions printed to run the command as a root user, this will auto run pm2 on startup
+3) Run `pm2 save`, this will auto launch all currently running pm2 processes when pm2 starts for the first time (step 2 makes pm2 launch on startup) 
+For further reference, https://pm2.keymetrics.io/docs/usage/startup/
