@@ -3,9 +3,15 @@ module.exports = {
     description: 'Stop',
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
+        const isPlaying = channel.playing;
+
+        if (!isPlaying) {
+            msg.reply('Nothing is playing');
+            return;
+        }
+
         if (channel) {
-            console.log(channel);
-            channel.end();
+            channel.stopPlaying();
         } else {
             msg.reply('Join a channel numb nuts');
         }
