@@ -4,7 +4,7 @@ const MediaPlayer = require('../classes/MediaPlayer');
 
 module.exports = {
     name: '!play',
-    description: 'Play',
+    description: '`!play` [url | youtube search | random] to queue up an audio source',
     async execute(msg, args) {
         const input = args.join(' ');
         const channel = msg.member.voiceChannel;
@@ -20,18 +20,27 @@ module.exports = {
             msg.reply('Invalid request');
             return;
         }
+
         // If the argument is not a valid link, try to search yt for it
-        if (!isValid) {
-            const result = await searchHelper.searchYT(tempUrl);
+        if (!isValid && input !== 'random') {
+            const search = await searchHelper.searchYT(tempUrl);
+            const result = search.results;
             console.log(result);
             if (result.length < 1) {
                 msg.reply("Shit be scuffed sometimes idk why it didnt find anything");
                 return;
             }
-            tempUrl = result[0].url
+            tempUrl = result[0].link
             if (!ytdl.validateURL(tempUrl)) {
                 msg.reply('Could not find any matching videos.');
                 return;
+            }
+        } else if (input === 'random') {
+            let search = await searchHelper.getSuggestedVideo();
+            tempUrl = `https://youtube.com/watch?v=${search.items[0].id}`;
+            while (!ytdl.validateURL(tempUrl)) {
+                search = await searchHelper.getSuggestedVideo();
+                tempUrl = `https://youtube.com/watch?v=${search.items[0].id}`;
             }
         }
 

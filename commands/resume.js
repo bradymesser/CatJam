@@ -1,6 +1,6 @@
 module.exports = {
     name: '!resume',
-    description: 'Resume',
+    description: '`!resume` to resume playback',
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         const player = global.mediaPlayers.get(channel.id);

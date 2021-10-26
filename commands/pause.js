@@ -1,6 +1,6 @@
 module.exports = {
     name: '!pause',
-    description: 'Pause',
+    description: '`!pause` to pause the playback at its current position',
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         const player = global.mediaPlayers.get(channel.id);
