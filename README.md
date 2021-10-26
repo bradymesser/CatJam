@@ -22,3 +22,7 @@ For further reference, https://pm2.keymetrics.io/docs/usage/startup/
 
 # Commands
 * Once you have added the bot to a discord server, use the command `!help` to get a list of all available commands
+
+# Issues
+* If you encounter an issue, open an issue in this repo and I'll look into it (no guarantees on how long a fix will take)
+* Alternatively, Feel free to open a pull request to either fix issues / improve the bot
