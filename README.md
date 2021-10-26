@@ -17,3 +17,6 @@
 2) Run `pm2 startup` and follow the instructions printed to run the command as a root user, this will auto run pm2 on startup
 3) Run `pm2 save`, this will auto launch all currently running pm2 processes when pm2 starts for the first time (step 2 makes pm2 launch on startup) 
 For further reference, https://pm2.keymetrics.io/docs/usage/startup/
+
+# Commands
+* Once you have added the bot to a discord server, use the command `!help` to get a list of all available commands
