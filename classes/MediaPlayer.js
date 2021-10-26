@@ -75,8 +75,12 @@ module.exports = class MediaPlayer {
 
     leave() {
         this.queue.clear();
-        this.dispatcher.end();
+        if (this.dispatcher) {
+            this.dispatcher.end();
+        }
+        if (this.channel) {
+            this.channel.leave();
+        }
         this.isPlaying = false;
-        this.channel.leave();
     }
 }

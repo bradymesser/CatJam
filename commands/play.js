@@ -23,6 +23,11 @@ module.exports = {
         // If the argument is not a valid link, try to search yt for it
         if (!isValid) {
             const result = await searchHelper.searchYT(tempUrl);
+            console.log(result);
+            if (result.length < 1) {
+                msg.reply("Shit be scuffed sometimes idk why it didnt find anything");
+                return;
+            }
             tempUrl = result[0].url
             if (!ytdl.validateURL(tempUrl)) {
                 msg.reply('Could not find any matching videos.');
