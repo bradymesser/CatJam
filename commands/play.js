@@ -25,7 +25,6 @@ module.exports = {
         if (!isValid && input !== 'random') {
             const search = await searchHelper.searchYT(tempUrl);
             const result = search.results;
-            console.log(result);
             if (result.length < 1) {
                 msg.reply("Shit be scuffed sometimes idk why it didnt find anything");
                 return;
