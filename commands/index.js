@@ -1,18 +1,28 @@
-module.exports = {
-  Play: require('./play'),
-  Skip: require('./skip'),
-  Stop: require('./stop'),
-  Pause: require('./pause'),
-  Resume: require('./resume'),
-  Help: require('./help'),
-  Leave: require('./leave'),
-  Join: require('./join')
+import Play from './play.js';
+import Skip from './skip.js';
+import Stop from './stop.js';
+import Pause from './pause.js';
+import Resume from './resume.js';
+import Help from './help.js';
+import Leave from './leave.js';
+import Join from './join.js';
+
+const commands = {
+  Play,
+  Skip,
+  Stop,
+  Pause,
+  Resume,
+  Help,
+  Leave,
+  Join
 };
+export default commands
 
 // Combine all module descriptions to be used in a help command
-const keys = Object.keys(module.exports)
+const keys = Object.keys(commands)
 let temp = '';
 for (const key of keys) {
-  temp = `${temp}\n${module.exports[key].description}`;
+  temp = `${temp}\n${commands[key].description}`;
 }
 global.commandHelp = temp;

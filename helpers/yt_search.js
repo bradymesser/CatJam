@@ -1,12 +1,13 @@
 /**
  * uses youtube-search, best library for text searches
  */
-const search = require('youtube-search');
+import search from 'youtube-search';
 /**
  * uses youtube-search-api, doesn't support text searches but can get a "random" video (suggested)
  */
-const youtubesearchapi = require('youtube-search-api');
-require('dotenv').config();
+import youtubesearchapi from 'youtube-search-api';
+import dotenv from 'dotenv'
+dotenv.config();
 
 const YT_KEY = process.env.YT_KEY;
 const ytSearchOptions = {
@@ -14,7 +15,7 @@ const ytSearchOptions = {
     key: YT_KEY
 };
 
-module.exports = {
+export default {
     searchYT: async function (txt) {
         return search(txt, ytSearchOptions);
     },

@@ -1,8 +1,13 @@
-require('dotenv').config();
-const Discord = require('discord.js');
+// require('dotenv').config();
+import dotenv from 'dotenv'
+dotenv.config();
+// const Discord = require('discord.js');
+import Discord from 'discord.js'
+// const botCommands = require('./commands');
+import botCommands from './commands/index.js';
+import { getVoiceConnection } from '@discordjs/voice';
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
-const botCommands = require('./commands');
 global.mediaPlayers = new Map();
 const listenStreams = new Map();
 
@@ -33,6 +38,10 @@ bot.on('message', msg => {
   }
 });
 
+bot.on('interactionCreate', async (interaction) => {
+  console.log('asdf')
+
+})
 // bot.on('guildMemberSpeaking', async (member, speaking) => {
 //   console.log('here');
 //   if (member.voiceChannel) {

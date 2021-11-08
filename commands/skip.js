@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: '!skip',
     description: '`!skip` to skip the current playback',
     execute(msg, args) {

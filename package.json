@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MonkeJammer",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "live": "nodemon index.js"
@@ -10,6 +11,7 @@
   "author": "Brady",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/voice": "^0.7.2",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "^0.0.4",

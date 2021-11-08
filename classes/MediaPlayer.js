@@ -1,8 +1,11 @@
-const MediaQueue = require('./MediaQueue');
-const ytdl = require('ytdl-core');
-const { Readable } = require('stream');
+// const MediaQueue = require('./MediaQueue');
+import MediaQueue from './MediaQueue.js';
+import ytdl from 'ytdl-core';
+import { Readable } from 'stream';
+// const ytdl = require('ytdl-core');
+// const { Readable } = require('stream');
 
-module.exports = class MediaPlayer {
+export default class MediaPlayer {
 
     constructor(channel) {
         this.queue = new MediaQueue();

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: '!resume',
     description: '`!resume` to resume playback',
     execute(msg, args) {

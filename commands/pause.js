@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: '!pause',
     description: '`!pause` to pause the playback at its current position',
     execute(msg, args) {

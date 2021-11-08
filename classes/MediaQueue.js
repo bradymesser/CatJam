@@ -1,4 +1,4 @@
-module.exports = class MediaQueue {
+export default class MediaQueue {
     constructor() {
         this.queue = [];
     }

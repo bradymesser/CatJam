@@ -1,7 +1,8 @@
-const MediaPlayer = require('../classes/MediaPlayer');
+// const MediaPlayer = require('../classes/MediaPlayer');
+import MediaPlayer from "../classes/MediaPlayer.js";
 
 
-module.exports = {
+export default {
     name: '!join',
     description: '`!join` to have the bot join',
     execute(msg, args) {
