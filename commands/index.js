@@ -5,7 +5,8 @@ module.exports = {
   Pause: require('./pause'),
   Resume: require('./resume'),
   Help: require('./help'),
-  Leave: require('./leave')
+  Leave: require('./leave'),
+  Join: require('./join')
 };
 
 // Combine all module descriptions to be used in a help command

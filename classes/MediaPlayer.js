@@ -1,5 +1,6 @@
 const MediaQueue = require('./MediaQueue');
 const ytdl = require('ytdl-core');
+const { Readable } = require('stream');
 
 module.exports = class MediaPlayer {
 
@@ -10,6 +11,7 @@ module.exports = class MediaPlayer {
         this.connection = null;
         this.lastRequest = null;
         this.dispatcher = null;
+        this.first = true;
     }
 
     setLastRequest(req) {
@@ -24,12 +26,23 @@ module.exports = class MediaPlayer {
     }
 
     next() {
-        return this.queue.dequeue();
+        return this.queue.get(0);
     }
 
-    async start() {
+    removeCurrentSong() {
+        this.destroyCurrentDispatcher();
+        this.queue.dequeue();
+    }
+
+    async join() {
         if (this.channel) {
             this.connection = await this.channel.join();
+            // this.attachVoiceListener();
+        }
+    }
+    async start() {
+        if (this.channel) {
+            await this.join();
             this.playNext();
         }
     }
@@ -42,12 +55,12 @@ module.exports = class MediaPlayer {
             this.dispatcher = this.connection.playStream(stream);
             req.msg.reply(`Playing ${req.url}`);
             this.dispatcher.on('end', () => {
+                this.queue.dequeue();
                 this.playNext();
             })
         } else {
             this.isPlaying = false;
-            this.dispatcher.end();
-            this.dispatcher = null;
+            this.destroyCurrentDispatcher();
         }
     }
 
@@ -65,22 +78,54 @@ module.exports = class MediaPlayer {
 
     stop() {
         this.queue.clear();
-        this.dispatcher.end();
+        this.destroyCurrentDispatcher();
         this.isPlaying = false;
     }
 
     skip() {
+        this.removeCurrentSong();
         this.playNext();
     }
 
     leave() {
         this.queue.clear();
-        if (this.dispatcher) {
-            this.dispatcher.end();
-        }
+        this.destroyCurrentDispatcher();
         if (this.channel) {
             this.channel.leave();
         }
         this.isPlaying = false;
+    }
+
+    destroyCurrentDispatcher() {
+        if (this.dispatcher) {
+            this.dispatcher.end();
+            this.dispatcher = null;
+        }
+    }
+
+    attachVoiceListener() {
+        if (this.connection) {
+            if (this.first) {
+                class Silence extends Readable {
+                    _read() {
+                        this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
+                    }
+                }
+                this.connection.playOpusStream(new Silence())
+                this.first = false
+            }
+            this.connection.on('speaking', (user, speaking) => {
+                console.log(speaking, '1')
+                setTimeout(() => {
+                    console.log('asdf');
+                    this.attachVoiceListener();
+                }, 250)
+                // const receiver = this.connection.createReceiver()
+                // console.log(this.connection.voiceManager);
+                // const audioStream = receiver.createPCMStream('asdf')
+                // console.log(audioStream);
+            })
+
+        }
     }
 }

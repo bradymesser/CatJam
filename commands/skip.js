@@ -4,8 +4,7 @@ module.exports = {
     execute(msg, args) {
         const channel = msg.member.voiceChannel;
         const player = global.mediaPlayers.get(channel.id);
-        if (player) {
-            player.setLastRequest(msg);
+        if (player && channel) {
             player.skip();
             msg.reply("Skipped")
         } else {

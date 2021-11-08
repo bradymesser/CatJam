@@ -26,4 +26,9 @@ module.exports = class MediaQueue {
     clear() {
         this.queue = [];
     }
+    get(index) {
+        if (index < this.queue.length) {
+            return this.queue[index];
+        }
+    }
 };
