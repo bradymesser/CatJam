@@ -1,4 +1,6 @@
-export default {
+import { Command } from "../interfaces/command";
+
+export const Resume: Command = {
     name: '!resume',
     description: '`!resume` to resume playback',
     execute(msg, args) {

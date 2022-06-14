@@ -1,4 +1,6 @@
 export default class MediaQueue {
+	public queue: any;
+
     constructor() {
         this.queue = [];
     }

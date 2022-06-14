@@ -4,15 +4,16 @@ dotenv.config();
 // const Discord = require('discord.js');
 import Discord from 'discord.js'
 // const botCommands = require('./commands');
-import botCommands from './commands/index.js';
+import botCommands from './src/commands/index';
 import { getVoiceConnection } from '@discordjs/voice';
+import { Command } from './src/interfaces/command';
 const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
-global.mediaPlayers = new Map();
+const commands = new Discord.Collection();
+var mediaPlayers = new Map();
 const listenStreams = new Map();
 
 Object.keys(botCommands).map(key => {
-  bot.commands.set(botCommands[key].name, botCommands[key]);
+  commands.set(botCommands[key].name, botCommands[key] as Command);
 });
 
 const TOKEN = process.env.TOKEN;
@@ -25,23 +26,18 @@ bot.on('ready', () => {
 
 bot.on('message', msg => {
   const args = msg.content.split(/ +/);
-  const command = args.shift().toLowerCase();
+  const command = args.shift()?.toLowerCase();
   console.info(`Called command: ${command}`);
 
-  if (!bot.commands.has(command)) return;
+  if (!commands.has(command)) return;
 
   try {
-    bot.commands.get(command).execute(msg, args);
+    (commands.get(command) as Command).execute(msg, args);
   } catch (error) {
     console.error(error);
     msg.reply('There was an error trying to execute that command! Try running !restart');
   }
 });
-
-bot.on('interactionCreate', async (interaction) => {
-  console.log('asdf')
-
-})
 // bot.on('guildMemberSpeaking', async (member, speaking) => {
 //   console.log('here');
 //   if (member.voiceChannel) {

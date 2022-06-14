@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
+import { Command } from '../interfaces/command';
 
-export default {
+export const Restart: Command = {
     name: '!restart',
     description: '`!restart` to restart and fix the bot',
     execute(msg, args) {

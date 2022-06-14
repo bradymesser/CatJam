@@ -6,6 +6,14 @@ import { Readable } from 'stream';
 // const { Readable } = require('stream');
 
 export default class MediaPlayer {
+	public queue: any;
+	public channel: any;
+	public isPlaying: any;
+	public connection: any;
+	public lastRequest: any;
+	public dispatcher: any;
+	public first: any;
+	public timeout: any;
 
     constructor(channel) {
         this.queue = new MediaQueue();

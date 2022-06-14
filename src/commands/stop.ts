@@ -1,4 +1,6 @@
-export default {
+import { Command } from "../interfaces/command";
+
+export const Stop: Command = {
     name: '!stop',
     description: '`!stop` to end playback and destroy the queue',
     execute(msg, args) {

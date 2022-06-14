@@ -1,4 +1,6 @@
-export default {
+import { Command } from "../interfaces/command";
+
+export const Leave: Command = {
     name: '!leave',
     description: '`!leave` to disconnect the bot and destroy the queue',
     execute(msg, args) {

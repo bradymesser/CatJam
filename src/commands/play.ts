@@ -3,9 +3,10 @@ import ytdl from 'ytdl-core';
 import searchHelper from '../helpers/yt_search.js';
 // const searchHelper = require('../helpers/yt_search');
 import MediaPlayer from '../classes/MediaPlayer.js';
+import { Command } from '../interfaces/command.js';
 // const MediaPlayer = require('../classes/MediaPlayer');
 
-export default {
+export const Play: Command = {
     name: '!play',
     description: '`!play` [url | youtube search | random] to queue up an audio source',
     async execute(msg, args) {
