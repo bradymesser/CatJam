@@ -10,14 +10,13 @@ export default {
         if (!channel) {
             msg.reply('Join a channel first')
         }
-        const player = global.mediaPlayers.get(channel.id);
-        if (player) {
-            player.leave();
-            player.join();
+        if (global.mediaPlayers.has(channel.id)) {
+            const q = global.mediaPlayers.get(channel.id);
+            q.bark(msg);
         } else {
             const q = new MediaPlayer(channel);
+            q.bark(tempUrl, msg);
             global.mediaPlayers.set(channel.id, q);
-            q.join();
         }
     },
 };

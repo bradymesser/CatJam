@@ -15,6 +15,7 @@ export default class MediaPlayer {
         this.lastRequest = null;
         this.dispatcher = null;
         this.first = true;
+        this.timeout = null;
     }
 
     setLastRequest(req) {
@@ -41,6 +42,7 @@ export default class MediaPlayer {
         if (this.channel) {
             this.connection = await this.channel.join();
             // this.attachVoiceListener();
+            // this.playNext();
         }
     }
     async start() {
@@ -50,9 +52,12 @@ export default class MediaPlayer {
         }
     }
 
+    // playSound(name: String)
+
     playNext() {
         if (this.queue.getLength() > 0) {
             this.isPlaying = true;
+            // clearTimeout(this.timeout);
             const req = this.next();
             const stream = ytdl(req.url, { filter: 'audioonly' });
             this.dispatcher = this.connection.playStream(stream);
@@ -64,6 +69,9 @@ export default class MediaPlayer {
         } else {
             this.isPlaying = false;
             this.destroyCurrentDispatcher();
+            // this.timeout = setTimeout(() => {
+            //     this.leave();
+            // }, 300000)
         }
     }
 
@@ -106,29 +114,30 @@ export default class MediaPlayer {
         }
     }
 
+    // TODO add voice commands if possible, is possible to determine when someone speaks with the on 'speaking'
     attachVoiceListener() {
-        if (this.connection) {
-            if (this.first) {
-                class Silence extends Readable {
-                    _read() {
-                        this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
-                    }
-                }
-                this.connection.playOpusStream(new Silence())
-                this.first = false
-            }
-            this.connection.on('speaking', (user, speaking) => {
-                console.log(speaking, '1')
-                setTimeout(() => {
-                    console.log('asdf');
-                    this.attachVoiceListener();
-                }, 250)
-                // const receiver = this.connection.createReceiver()
-                // console.log(this.connection.voiceManager);
-                // const audioStream = receiver.createPCMStream('asdf')
-                // console.log(audioStream);
-            })
+        // if (this.connection) {
+        //     if (this.first) {
+        //         class Silence extends Readable {
+        //             _read() {
+        //                 this.push(Buffer.from([0xF8, 0xFF, 0xFE]))
+        //             }
+        //         }
+        //         this.connection.playOpusStream(new Silence())
+        //         this.first = false
+        //     }
+        //     this.connection.on('speaking', (user, speaking) => {
+        //         console.log(speaking, '1')
+        //         setTimeout(() => {
+        //             console.log('asdf');
+        //             this.attachVoiceListener();
+        //         }, 250)
+        //         // const receiver = this.connection.createReceiver()
+        //         // console.log(this.connection.voiceManager);
+        //         // const audioStream = receiver.createPCMStream('asdf')
+        //         // console.log(audioStream);
+        //     })
 
-        }
+        // }
     }
 }

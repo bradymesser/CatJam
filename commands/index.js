@@ -6,6 +6,7 @@ import Resume from './resume.js';
 import Help from './help.js';
 import Leave from './leave.js';
 import Join from './join.js';
+import Restart from './restart.js';
 
 const commands = {
   Play,
@@ -15,7 +16,8 @@ const commands = {
   Resume,
   Help,
   Leave,
-  Join
+  Join,
+  Restart
 };
 export default commands
 
