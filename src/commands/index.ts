@@ -1,15 +1,15 @@
-import { Play } from './play.js';
-import { Skip } from './skip.js';
-import { Stop } from './stop.js';
-import { Pause } from './pause.js';
-import { Resume } from './resume.js';
-import { Help } from './help.js';
-import { Leave } from './leave.js';
-import { Join } from './join.js';
-import { Restart } from './restart.js';
-import { Command } from '../interfaces/command.js';
+import { Play } from './play';
+import { Skip } from './skip';
+import { Stop } from './stop';
+import { Pause } from './pause';
+import { Resume } from './resume';
+import { Help } from './help';
+import { Leave } from './leave';
+import { Join } from './join';
+import { Restart } from './restart';
+import { Command } from '../interfaces/command';
 
-const commands: any = {
+const BotCommands: Command[] = [
   Play,
   Skip,
   Stop,
@@ -19,13 +19,13 @@ const commands: any = {
   Leave,
   Join,
   Restart
-};
-export default commands
+];
+export default BotCommands
 
 // Combine all module descriptions to be used in a help command
-const keys = Object.keys(commands)
+// const keys = Object.keys(commands)
 let temp = '';
-for (const key of keys) {
-  temp = `${temp}\n${commands[key].description}`;
+for (const command of BotCommands) {
+  temp = `${temp}\n${command.description}`;
 }
-globalThis.commandHelp = temp;
+global.commandHelp = temp;

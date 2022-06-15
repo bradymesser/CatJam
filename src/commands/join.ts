@@ -1,15 +1,17 @@
 // const MediaPlayer = require('../classes/MediaPlayer');
-import MediaPlayer from "../classes/MediaPlayer.js";
-import { Command } from "../interfaces/command.js";
+import { Message } from "discord.js";
+import MediaPlayer from "../classes/MediaPlayer";
+import { Command } from "../interfaces/command";
 
 
 export const Join: Command = {
-    name: '!join',
-    description: '`!join` to have the bot join',
-    execute(msg, args) {
-        const channel = msg.member.voiceChannel;
+    name: '/join',
+    description: 'join` to have the bot join',
+    execute(msg: Message, args) {
+        const channel = msg.member?.voice.channel;
         if (!channel) {
-            msg.reply('Join a channel first')
+            msg.reply('Join a channel first');
+            return;
         }
         const player = global.mediaPlayers.get(channel.id);
         if (player) {

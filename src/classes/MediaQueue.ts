@@ -1,12 +1,12 @@
 export default class MediaQueue {
-	public queue: any;
+    public queue: { url: string, msg: any }[];
 
     constructor() {
         this.queue = [];
     }
 
-    enqueue(url, msg) {
-        if (this.queue.findIndex(e => e === url) === -1) {
+    enqueue(url: string, msg: any) {
+        if (this.queue.findIndex(e => e.url === url) === -1) {
             this.queue.push({ url, msg });
         }
     }
@@ -17,7 +17,7 @@ export default class MediaQueue {
         }
     }
 
-    find(url) {
+    find(url: string) {
         return this.queue.findIndex(e => e.url === url);
     }
 
@@ -28,7 +28,7 @@ export default class MediaQueue {
     clear() {
         this.queue = [];
     }
-    get(index) {
+    get(index: number) {
         if (index < this.queue.length) {
             return this.queue[index];
         }

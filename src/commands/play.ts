@@ -1,17 +1,17 @@
 // const ytdl = require('ytdl-core');
 import ytdl from 'ytdl-core';
-import searchHelper from '../helpers/yt_search.js';
+import searchHelper from '../helpers/yt_search';
 // const searchHelper = require('../helpers/yt_search');
-import MediaPlayer from '../classes/MediaPlayer.js';
-import { Command } from '../interfaces/command.js';
+import MediaPlayer from '../classes/MediaPlayer';
+import { Command } from '../interfaces/command';
 // const MediaPlayer = require('../classes/MediaPlayer');
 
 export const Play: Command = {
-    name: '!play',
-    description: '`!play` [url | youtube search | random] to queue up an audio source',
+    name: '/play',
+    description: 'play` [url | youtube search | random] to queue up an audio source',
     async execute(msg, args) {
         const input = args.join(' ');
-        const channel = msg.member.voiceChannel;
+        const channel = msg.member?.voice.channel;
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;
 
@@ -49,17 +49,17 @@ export const Play: Command = {
 
         if (global.mediaPlayers.has(channel.id)) {
             const q = global.mediaPlayers.get(channel.id);
-            q.add(tempUrl, msg);
+            q?.add(tempUrl, msg);
         } else {
             const q = new MediaPlayer(channel);
             q.add(tempUrl, msg);
             global.mediaPlayers.set(channel.id, q);
         }
         const player = global.mediaPlayers.get(channel.id);
-        player.setLastRequest(msg);
-        msg.reply(`Added ${tempUrl} to the queue at position ${player.getPosition(tempUrl)}`)
-        if (!player.isPlaying) {
-            player.start();
+        player?.setLastRequest(msg);
+        msg.reply(`Added ${tempUrl} to the queue at position ${player?.getPosition(tempUrl)}`)
+        if (!player?.isPlaying) {
+            player?.start();
         }
     },
 };

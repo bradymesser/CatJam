@@ -1,39 +1,41 @@
 // const MediaQueue = require('./MediaQueue');
-import MediaQueue from './MediaQueue.js';
+import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
 import { Readable } from 'stream';
+import { Channel, ChannelManager, Message, VoiceChannel } from 'discord.js';
+import { AudioPlayer, AudioResource, createAudioPlayer, createAudioResource, CreateVoiceConnectionOptions, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions } from '@discordjs/voice';
 // const ytdl = require('ytdl-core');
 // const { Readable } = require('stream');
 
 export default class MediaPlayer {
 	public queue: any;
-	public channel: any;
+    public channel: VoiceChannel;
 	public isPlaying: any;
-	public connection: any;
+    // public connection: any;
 	public lastRequest: any;
 	public dispatcher: any;
 	public first: any;
 	public timeout: any;
 
-    constructor(channel) {
+    constructor(channel: any) {
         this.queue = new MediaQueue();
         this.channel = channel;
         this.isPlaying = false;
-        this.connection = null;
+        // this.connection = null;
         this.lastRequest = null;
         this.dispatcher = null;
         this.first = true;
         this.timeout = null;
     }
 
-    setLastRequest(req) {
+    setLastRequest(req: any) {
         this.lastRequest = req;
     }
 
-    getPosition(url) {
+    getPosition(url: string) {
         return this.queue.find(url);
     }
-    add(url, msg) {
+    add(url: string, msg: any) {
         this.queue.enqueue(url, msg);
     }
 
@@ -46,9 +48,25 @@ export default class MediaPlayer {
         this.queue.dequeue();
     }
 
+    getConnection() {
+        return getVoiceConnection(this.channel.guild.id)
+    }
+
+
     async join() {
-        if (this.channel) {
-            this.connection = await this.channel.join();
+        const joinOptions: JoinVoiceChannelOptions = {
+            channelId: this.channel.id,
+            guildId: this.channel.guild.id
+        }
+        // const createConnectionOptions: CreateVoiceConnectionOptions = {
+        //     adapterCreator: this.channel.
+        // }
+        if (!this.getConnection()) {
+            joinVoiceChannel({
+                channelId: this.channel.id,
+                guildId: this.channel.guild.id,
+                adapterCreator: this.channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator
+            });
             // this.attachVoiceListener();
             // this.playNext();
         }
@@ -60,7 +78,16 @@ export default class MediaPlayer {
         }
     }
 
-    // playSound(name: String)
+    playSound(name: string) {
+        this.join();
+        this.pause();
+        const audioPlayer = createAudioPlayer();
+        audioPlayer.play(createAudioResource(name));
+        this.getConnection()?.subscribe(audioPlayer);
+        // dispatcher.on('end', () => {
+        //     this.resume();
+        // });
+    }
 
     playNext() {
         if (this.queue.getLength() > 0) {
@@ -68,7 +95,10 @@ export default class MediaPlayer {
             // clearTimeout(this.timeout);
             const req = this.next();
             const stream = ytdl(req.url, { filter: 'audioonly' });
-            this.dispatcher = this.connection.playStream(stream);
+            const audioPlayer = createAudioPlayer();
+            audioPlayer.play(createAudioResource(stream));
+            this.getConnection()?.subscribe(audioPlayer);
+            // this.dispatcher = this.getConnection().playStream(stream);
             req.msg.reply(`Playing ${req.url}`);
             this.dispatcher.on('end', () => {
                 this.queue.dequeue();
@@ -110,7 +140,7 @@ export default class MediaPlayer {
         this.queue.clear();
         this.destroyCurrentDispatcher();
         if (this.channel) {
-            this.channel.leave();
+            this.getConnection()?.destroy();
         }
         this.isPlaying = false;
     }

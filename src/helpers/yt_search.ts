@@ -5,7 +5,7 @@ import search from 'youtube-search';
 /**
  * uses youtube-search-api, doesn't support text searches but can get a "random" video (suggested)
  */
-import youtubesearchapi from 'youtube-search-api';
+const youtubesearchapi = require('youtube-search-api');
 import dotenv from 'dotenv'
 dotenv.config();
 
@@ -16,7 +16,7 @@ const ytSearchOptions = {
 };
 
 export default {
-    searchYT: async function (txt) {
+    searchYT: async function (txt: any) {
         return search(txt, ytSearchOptions);
     },
     generateRandomID() {

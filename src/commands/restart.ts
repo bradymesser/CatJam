@@ -2,8 +2,8 @@ import { exec } from 'child_process';
 import { Command } from '../interfaces/command';
 
 export const Restart: Command = {
-    name: '!restart',
-    description: '`!restart` to restart and fix the bot',
+    name: '/restart',
+    description: 'restart` to restart and fix the bot',
     execute(msg, args) {
         msg.reply("Restarting...");
         exec("pm2 restart all", (error, stdout, stderr) => {

@@ -1,10 +1,11 @@
 import { Command } from "../interfaces/command";
 
 export const Skip: Command = {
-    name: '!skip',
-    description: '`!skip` to skip the current playback',
+    name: '/skip',
+    description: 'skip` to skip the current playback',
     execute(msg, args) {
-        const channel = msg.member.voiceChannel;
+        const channel = msg.member?.voice.channel;
+        if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
         if (player && channel) {
             player.skip();
