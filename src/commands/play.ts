@@ -60,6 +60,7 @@ export const Play: Command = {
         }
         const player = global.mediaPlayers.get(channel.id);
         interaction.reply({ content: `Added ${tempUrl} to the queue at position ${player?.getPosition(tempUrl)} 🐵`, ephemeral: true })
+        console.log(player?.isPlaying);
         if (!player?.isPlaying) {
             player?.start();
         }

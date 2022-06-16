@@ -9,6 +9,7 @@ export const Stop: Command = {
         const player = global.mediaPlayers.get(channel.id);
         if (player) {
             player.stop();
+            interaction.reply({ content: "Stopped.", ephemeral: true })
         } else {
             interaction.reply({ content: 'Nothing to stop', ephemeral: true });
         }

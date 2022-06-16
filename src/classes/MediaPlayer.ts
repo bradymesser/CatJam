@@ -1,10 +1,8 @@
-// const MediaQueue = require('./MediaQueue');
+import { createReadStream } from 'fs';
 import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
 import { VoiceChannel } from 'discord.js';
-import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions } from '@discordjs/voice';
-// const ytdl = require('ytdl-core');
-// const { Readable } = require('stream');
+import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions, PlayerSubscription } from '@discordjs/voice';
 
 export default class MediaPlayer {
     public queue: MediaQueue;
@@ -13,8 +11,10 @@ export default class MediaPlayer {
     public lastRequest: any;
     public first: any;
     public player: AudioPlayer;
+    public soundPlayer: AudioPlayer;
 
     private timeout?: NodeJS.Timeout;
+    private subscription?: PlayerSubscription;
 
     constructor(channel: any) {
         this.queue = new MediaQueue();
@@ -22,20 +22,26 @@ export default class MediaPlayer {
         this.isPlaying = false;
         this.lastRequest = null;
         this.first = true;
-        this.player = new AudioPlayer();
+        this.player = createAudioPlayer();
+        this.soundPlayer = createAudioPlayer();
         this.player.on(AudioPlayerStatus.Idle, () => {
             this.isPlaying = false;
+            console.debug('ENTERING IDLE STATE')
             this.queue.dequeue();
             this.playNext();
         })
         this.player.on(AudioPlayerStatus.Playing, () => {
             this.isPlaying = true;
+            console.debug('ENTERING PLAYING STATE')
             clearTimeout(this.timeout);
         });
         this.player.on(AudioPlayerStatus.Paused, () => {
+            console.debug('ENTERING PAUSED STATE')
+            this.resetTimeout();
             this.isPlaying = false;
         });
         this.player.on('error', () => {
+            console.error('error in player')
             this.isPlaying = false;
             this.playNext();
         })
@@ -76,27 +82,55 @@ export default class MediaPlayer {
         }
     }
     async start() {
-        if (this.channel) {
-            await this.join();
-            this.playNext();
-        }
+        await this.join();
+        this.playNext();
     }
 
     async playSound(name: string) {
         await this.join();
-        this.pause()
-        const audioPlayer = createAudioPlayer();
-        const audioResource = createAudioResource(name);
+        this.player.stop();
+        // this.subscription?.unsubscribe();
         const connection = this.getConnection();
-        audioPlayer.play(audioResource);
-        audioPlayer.on(AudioPlayerStatus.Idle, () => {
-            audioPlayer.stop();
-            if (!this.resume()) {
-                console.error("Could not unpause player");
-                this.resetTimeout();
-            }
-        })
-        connection?.subscribe(audioPlayer);
+        console.debug(`Loading file ${name}`)
+        const audioResource = createAudioResource(createReadStream(name));
+        this.player.play(audioResource);
+        connection?.subscribe(this.player);
+        if (!this.player.checkPlayable()) {
+            console.debug(`Player not playable for sound ${name} \n`);
+            this.playNext();
+        }
+        // this.soundPlayer.on(AudioPlayerStatus.Idle, () => {
+        //     console.log('11111')
+        //     this.soundPlayer.stop(true);
+        //     console.log('asdf')
+        //     // subscription?.unsubscribe();
+        //     console.log('here')
+        //     this.subscription = this.getConnection()?.subscribe(this.player);
+        //     if (!this.resume()) {
+        //         console.error("Could not unpause player");
+        //         this.resetTimeout();
+        //     } else {
+        //         console.log("Unpaused successfully");
+        //     }
+        //     this.soundPlayer.removeAllListeners();
+        // })
+        // this.soundPlayer.on(AudioPlayerStatus.Playing, () => {
+        //     this.isPlaying = true;
+        //     clearTimeout(this.timeout);
+        // });
+        // this.soundPlayer.on(AudioPlayerStatus.Paused, () => {
+        //     this.isPlaying = false;
+        //     this.soundPlayer.removeAllListeners();
+        // });
+        // this.soundPlayer.on('error', () => {
+        //     this.isPlaying = false;
+        //     this.soundPlayer.removeAllListeners();
+        //     this.playNext();
+        // })
+        // console.log(subscription)
+        // audioPlayer.on(AudioPlayerStatus.Idle, () => {
+
+        // })
     }
 
     playNext() {
@@ -104,9 +138,8 @@ export default class MediaPlayer {
             const req = this.next();
             if (!req) return;
             const stream = ytdl(req.url, { filter: 'audioonly' });
-            const audioPlayer = this.player;
-            audioPlayer.play(createAudioResource(stream));
-            this.getConnection()?.subscribe(audioPlayer);
+            this.player.play(createAudioResource(stream));
+            this.subscription = this.getConnection()?.subscribe(this.player);
         } else {
             // When no songs left in the queue, start a timer for disconnect
             this.resetTimeout();
@@ -144,7 +177,7 @@ export default class MediaPlayer {
         return this.player.state;
     }
 
-    destroyCurrentDispatcher() {
+    private destroyCurrentDispatcher() {
         this.player.stop(true);
     }
 
@@ -156,7 +189,11 @@ export default class MediaPlayer {
     }
 
     private resetTimeout() {
-        clearTimeout(this.timeout);
+        console.debug(`Resetting timeout for ${this.channel.id}`)
+        if (this.timeout) {
+            console.debug("CLEARING TIMEOUT")
+            clearTimeout(this.timeout);
+        }
         this.setTimeout();
     }
 }

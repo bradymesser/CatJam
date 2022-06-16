@@ -9,6 +9,7 @@ import { Join } from './join';
 import { Restart } from './restart';
 import { Command } from '../interfaces/command';
 import { Bark } from './bark';
+import { Sound } from './sound';
 
 const BotCommands: Command[] = [
   Bark,
@@ -20,7 +21,8 @@ const BotCommands: Command[] = [
   Help,
   Leave,
   Join,
-  Restart
+  Restart,
+  Sound
 ];
 export default BotCommands
 

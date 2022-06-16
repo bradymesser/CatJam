@@ -7,7 +7,7 @@ export const Skip: Command = {
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
-        if (player && player.isPlaying) {
+        if (player) {
             player.skip();
             interaction.reply({ content: "Skipped 🐵", ephemeral: true })
         } else {

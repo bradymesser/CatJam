@@ -2,6 +2,7 @@
 import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
+import * as path from 'path';
 
 
 export const Bark: Command = {
@@ -14,14 +15,12 @@ export const Bark: Command = {
         }
         if (global.mediaPlayers.has(channel.id)) {
             const q = global.mediaPlayers.get(channel.id);
-            q?.playSound('/home/CatJam/CatJam/src/sounds/lucas_bark.mp3');
+            q?.playSound(path.resolve(__dirname, "../sounds/lucas_bark.mp3"));
         } else {
             const q = new MediaPlayer(channel);
-            q?.playSound('/home/CatJam/CatJam/src/sounds/lucas_bark.mp3');
+            q?.playSound(path.resolve(__dirname, "../sounds/lucas_bark.mp3"));
             global.mediaPlayers.set(channel.id, q);
         }
-        const player = global.mediaPlayers.get(channel.id);
-        console.log(player?.getState());
         interaction.reply(`AWF AWF`);
     },
 };

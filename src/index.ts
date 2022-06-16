@@ -1,13 +1,8 @@
-// require('dotenv').config();
 import dotenv from 'dotenv'
 dotenv.config();
-// const Discord = require('discord.js');
-import Discord, { FetchMemberOptions, GuildMember, Interaction, Message } from 'discord.js'
-// const botCommands = require('./commands');
+import Discord, { Interaction } from 'discord.js'
 import BotCommands from './commands/index';
-import { Command } from './interfaces/command';
-import MediaPlayer from 'src/classes/MediaPlayer';
-import { Bark } from './commands/bark';
+import MediaPlayer from './classes/MediaPlayer';
 
 declare global {
   var mediaPlayers: Map<string, MediaPlayer>;
@@ -50,16 +45,19 @@ bot.on('interactionCreate', async (interaction: Interaction) => {
     guild?.members.fetch(interaction.user);
     const member = await guild?.members.fetch(interaction.user);
     const voiceChannel = member?.voice.channel; // don't need to get it this way anymore; fixed intents array
-    // console.log(guild, member, voiceChannel);
     if (!voiceChannel) {
       interaction.reply({ content: "voice channel is null", ephemeral: true });
       return;
     }
-    // console.log(command, commandName);
     if (!command) {
       interaction.reply({ content: "Could not find command.", ephemeral: true })
-    } else {
-      command.execute(interaction, voiceChannel);
+      return;
     }
+    try {
+      command.execute(interaction, voiceChannel);
+    } catch {
+      interaction.reply({ content: 'Failed to execute command', ephemeral: true })
+    }
+
   }
 });
