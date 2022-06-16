@@ -12,7 +12,7 @@ export const Join: Command = {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })
             return;
         }
-        const player = global.mediaPlayers.get(channel.id);
+        const player = global.mediaPlayers.get(channel.id) as MediaPlayer;
         if (player) {
             player.leave();
             player.join();
@@ -21,5 +21,6 @@ export const Join: Command = {
             global.mediaPlayers.set(channel.id, q);
             q.join();
         }
+        interaction.reply({ content: "Hello 🐒" })
     },
 };

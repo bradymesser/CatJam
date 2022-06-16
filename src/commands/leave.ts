@@ -9,9 +9,9 @@ export const Leave: Command = {
         const player = global.mediaPlayers.get(channel.id);
         if (player) {
             player.leave();
-            interaction.reply({ content: "Bye Monke :(", ephemeral: true })
+            interaction.reply({ content: "Bye Monke 🙊", ephemeral: true })
         } else {
-            interaction.reply({ content: "Monke could not leave :)", ephemeral: true });
+            interaction.reply({ content: "Monke could not leave 🐵", ephemeral: true });
         }
     },
 };

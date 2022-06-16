@@ -67,10 +67,6 @@ export default class MediaPlayer {
 
 
     async join() {
-        const joinOptions: JoinVoiceChannelOptions = {
-            channelId: this.channel.id,
-            guildId: this.channel.guild.id
-        }
         if (!this.getConnection()) {
             joinVoiceChannel({
                 channelId: this.channel.id,
