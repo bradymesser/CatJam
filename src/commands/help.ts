@@ -1,4 +1,4 @@
-import { BaseCommandInteraction, Message, VoiceBasedChannel } from "discord.js";
+import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Help: Command = {

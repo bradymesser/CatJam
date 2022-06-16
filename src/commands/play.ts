@@ -1,11 +1,9 @@
 // const ytdl = require('ytdl-core');
 import ytdl from 'ytdl-core';
 import searchHelper from '../helpers/yt_search';
-// const searchHelper = require('../helpers/yt_search');
 import MediaPlayer from '../classes/MediaPlayer';
 import { Command } from '../interfaces/command';
-import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from 'discord.js';
-// const MediaPlayer = require('../classes/MediaPlayer');
+import { BaseCommandInteraction, VoiceBasedChannel } from 'discord.js';
 
 export const Play: Command = {
     name: 'play',
@@ -16,7 +14,6 @@ export const Play: Command = {
         type: "STRING"
     }],
     async execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
-        // const channel = (interaction.member as GuildMember).voice.channel;
         const input = interaction.options.get('input')?.value as string;
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;
@@ -62,7 +59,6 @@ export const Play: Command = {
             global.mediaPlayers.set(channel.id, q);
         }
         const player = global.mediaPlayers.get(channel.id);
-        // player?.setLastRequest(msg);
         interaction.reply({ content: `Added ${tempUrl} to the queue at position ${player?.getPosition(tempUrl)} 🐵`, ephemeral: true })
         if (!player?.isPlaying) {
             player?.start();

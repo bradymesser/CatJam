@@ -1,7 +1,8 @@
 # Requirements
 * Node, initally setup with v17.0.1 but others probably work
 * npm
-* pm2 `npm install -g pm2`
+* pm2 `npm install -g pm2` will install pm2 globally
+* ts-node `npm install -g ts-node` will install ts-node globally
 * ffmpeg (finnicky on windows but can work, linux is strongly recommended for running the bot)
 
 # Setup
@@ -15,13 +16,13 @@
 
 
 # How to auto launch the bot on startup
-1) Run `pm2 start index.js` 
+1) Run `pm2 start ts-node -- -P tsconfig.json ./src/index.ts` 
 2) Run `pm2 startup` and follow the instructions printed to run the command as a root user, this will auto run pm2 on startup
 3) Run `pm2 save`, this will auto launch all currently running pm2 processes when pm2 starts for the first time (step 2 makes pm2 launch on startup) 
 For further reference, https://pm2.keymetrics.io/docs/usage/startup/
 
 # Commands
-* Once you have added the bot to a discord server, use the command `!help` to get a list of all available commands
+* Once you have added the bot to a discord server, use the command `/help` to get a list of all available commands
 
 # Issues
 * If you encounter an issue, open an issue in this repo and I'll look into it (no guarantees on how long a fix will take)

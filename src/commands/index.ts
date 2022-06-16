@@ -25,7 +25,6 @@ const BotCommands: Command[] = [
 export default BotCommands
 
 // Combine all module descriptions to be used in a help command
-// const keys = Object.keys(commands)
 let temp = '';
 for (const command of BotCommands) {
   temp = `${temp}\n${command.description}`;

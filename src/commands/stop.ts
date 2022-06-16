@@ -5,7 +5,6 @@ export const Stop: Command = {
     name: 'stop',
     description: 'stop` to end playback and destroy the queue',
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
-        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
         if (player) {

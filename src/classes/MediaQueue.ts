@@ -1,13 +1,15 @@
+import { BaseCommandInteraction } from "discord.js";
+
 export default class MediaQueue {
-    public queue: { url: string, msg: any }[];
+    public queue: { url: string, interaction: BaseCommandInteraction }[];
 
     constructor() {
         this.queue = [];
     }
 
-    enqueue(url: string, msg: any) {
+    enqueue(url: string, interaction: BaseCommandInteraction) {
         if (this.queue.findIndex(e => e.url === url) === -1) {
-            this.queue.push({ url, msg });
+            this.queue.push({ url, interaction });
         }
     }
 

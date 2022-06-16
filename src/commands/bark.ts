@@ -1,5 +1,5 @@
 // const MediaPlayer = require('../classes/MediaPlayer');
-import { BaseCommandInteraction, GuildMember, Interaction, Message, VoiceBasedChannel } from "discord.js";
+import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
 
