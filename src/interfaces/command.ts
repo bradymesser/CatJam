@@ -1,7 +1,7 @@
-import { ChatInputApplicationCommandData, Message } from "discord.js";
+import { ChatInputApplicationCommandData, Interaction, Message, VoiceBasedChannel } from "discord.js";
 
 export interface Command extends ChatInputApplicationCommandData {
     // name: string;
     // description: string;
-    execute(msg: Message, args: any): any;
+    execute(interaction: Interaction, channel: VoiceBasedChannel): any;
 }

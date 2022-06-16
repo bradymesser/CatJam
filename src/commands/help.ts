@@ -1,10 +1,10 @@
-import { Message } from "discord.js";
+import { BaseCommandInteraction, Message, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Help: Command = {
-    name: '/help',
+    name: 'help',
     description: 'help` to list all commands',
-    execute(msg: Message, args) {
-        msg.reply(global.commandHelp);
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        interaction.reply(global.commandHelp);
     },
 };

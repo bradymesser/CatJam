@@ -3,19 +3,20 @@ import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
 import { Readable } from 'stream';
 import { Channel, ChannelManager, Message, VoiceChannel } from 'discord.js';
-import { AudioPlayer, AudioResource, createAudioPlayer, createAudioResource, CreateVoiceConnectionOptions, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions } from '@discordjs/voice';
+import { AudioPlayer, AudioPlayerStatus, AudioResource, createAudioPlayer, createAudioResource, CreateVoiceConnectionOptions, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions } from '@discordjs/voice';
 // const ytdl = require('ytdl-core');
 // const { Readable } = require('stream');
 
 export default class MediaPlayer {
 	public queue: any;
     public channel: VoiceChannel;
-	public isPlaying: any;
+    public isPlaying: boolean;
     // public connection: any;
 	public lastRequest: any;
-	public dispatcher: any;
+	// public dispatcher: any;
 	public first: any;
 	public timeout: any;
+    public player: AudioPlayer;
 
     constructor(channel: any) {
         this.queue = new MediaQueue();
@@ -23,9 +24,25 @@ export default class MediaPlayer {
         this.isPlaying = false;
         // this.connection = null;
         this.lastRequest = null;
-        this.dispatcher = null;
+        // this.dispatcher = null;
         this.first = true;
         this.timeout = null;
+        this.player = new AudioPlayer();
+        this.player.on(AudioPlayerStatus.Idle, () => {
+            this.isPlaying = false;
+            this.queue.dequeue();
+            this.playNext();
+        })
+        this.player.on(AudioPlayerStatus.Playing, () => {
+            this.isPlaying = true;
+        });
+        this.player.on(AudioPlayerStatus.Paused, () => {
+            this.isPlaying = false;
+        });
+        this.player.on('error', () => {
+            this.isPlaying = false;
+            this.playNext();
+        })
     }
 
     setLastRequest(req: any) {
@@ -44,7 +61,8 @@ export default class MediaPlayer {
     }
 
     removeCurrentSong() {
-        this.destroyCurrentDispatcher();
+        // this.destroyCurrentDispatcher();
+        this.player.pause();
         this.queue.dequeue();
     }
 
@@ -78,12 +96,24 @@ export default class MediaPlayer {
         }
     }
 
-    playSound(name: string) {
-        this.join();
-        this.pause();
+    async playSound(name: string) {
+        await this.join();
+        // this.pause();
+        this.pause()
         const audioPlayer = createAudioPlayer();
-        audioPlayer.play(createAudioResource(name));
-        this.getConnection()?.subscribe(audioPlayer);
+        const audioResource = createAudioResource(name);
+        const connection = this.getConnection();
+        audioPlayer.play(audioResource);
+        audioPlayer.on(AudioPlayerStatus.Idle, () => {
+            audioPlayer.stop();
+            if (!this.resume()) {
+                console.error("Could not unpause player");
+            }
+        })
+        // if (!connection)
+        connection?.subscribe(audioPlayer);
+        // connection.pl
+        // audioPlayer.on(event: AudioPlayerStatus,)
         // dispatcher.on('end', () => {
         //     this.resume();
         // });
@@ -91,22 +121,22 @@ export default class MediaPlayer {
 
     playNext() {
         if (this.queue.getLength() > 0) {
-            this.isPlaying = true;
+            // this.isPlaying = true;
             // clearTimeout(this.timeout);
             const req = this.next();
             const stream = ytdl(req.url, { filter: 'audioonly' });
-            const audioPlayer = createAudioPlayer();
+            const audioPlayer = this.player;
             audioPlayer.play(createAudioResource(stream));
             this.getConnection()?.subscribe(audioPlayer);
             // this.dispatcher = this.getConnection().playStream(stream);
-            req.msg.reply(`Playing ${req.url}`);
-            this.dispatcher.on('end', () => {
-                this.queue.dequeue();
-                this.playNext();
-            })
+            // req.msg.reply(`Playing ${req.url}`);
+            // this.dispatcher.on('end', () => {
+            //     this.queue.dequeue();
+            //     this.playNext();
+            // })
         } else {
-            this.isPlaying = false;
-            this.destroyCurrentDispatcher();
+            // setTimeout(() => {}, )
+            // this.destroyCurrentDispatcher();
             // this.timeout = setTimeout(() => {
             //     this.leave();
             // }, 300000)
@@ -114,21 +144,16 @@ export default class MediaPlayer {
     }
 
     pause() {
-        this.dispatcher.pause();
-        this.isPlaying = false;
+        this.player.pause();
     }
 
     resume() {
-        if (this.dispatcher) {
-            this.dispatcher.resume();
-            this.isPlaying = true;
-        }
+        return this.player.unpause();
     }
 
     stop() {
         this.queue.clear();
         this.destroyCurrentDispatcher();
-        this.isPlaying = false;
     }
 
     skip() {
@@ -141,15 +166,16 @@ export default class MediaPlayer {
         this.destroyCurrentDispatcher();
         if (this.channel) {
             this.getConnection()?.destroy();
+            global.mediaPlayers.delete(this.channel.id);
         }
-        this.isPlaying = false;
+    }
+
+    getState() {
+        return this.player.state;
     }
 
     destroyCurrentDispatcher() {
-        if (this.dispatcher) {
-            this.dispatcher.end();
-            this.dispatcher = null;
-        }
+        this.player.stop(true);
     }
 
     // TODO add voice commands if possible, is possible to determine when someone speaks with the on 'speaking'

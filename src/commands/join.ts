@@ -1,16 +1,16 @@
 // const MediaPlayer = require('../classes/MediaPlayer');
-import { Message } from "discord.js";
+import { BaseCommandInteraction, GuildMember, Message, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
 
 
 export const Join: Command = {
-    name: '/join',
+    name: 'join',
     description: 'join` to have the bot join',
-    execute(msg: Message, args) {
-        const channel = msg.member?.voice.channel;
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) {
-            msg.reply('Join a channel first');
+            interaction.reply({ content: 'Join a channel first', ephemeral: true })
             return;
         }
         const player = global.mediaPlayers.get(channel.id);

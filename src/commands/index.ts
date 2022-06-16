@@ -8,8 +8,10 @@ import { Leave } from './leave';
 import { Join } from './join';
 import { Restart } from './restart';
 import { Command } from '../interfaces/command';
+import { Bark } from './bark';
 
 const BotCommands: Command[] = [
+  Bark,
   Play,
   Skip,
   Stop,

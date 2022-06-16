@@ -1,19 +1,19 @@
+import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Pause: Command = {
-    name: '/pause',
+    name: 'pause',
     description: 'pause` to pause the playback at its current position',
-    execute(msg, args) {
-        const channel = msg.member?.voice.channel;
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
         console.log(player)
-        if (player && player.isPlaying) {
-            player.setLastRequest(msg);
+        if (player) {
             player.pause();
-            msg.reply("Pausing. Use !resume to resume playing")
+            interaction.reply({ content: "Pausing. Use !resume to resume playing", ephemeral: true })
         } else {
-            msg.reply('Nothing to pause');
+            interaction.reply({ content: 'Nothing to pause', ephemeral: true });
         }
     },
 };

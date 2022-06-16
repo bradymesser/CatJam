@@ -1,20 +1,21 @@
 import { exec } from 'child_process';
+import { BaseCommandInteraction, VoiceBasedChannel } from 'discord.js';
 import { Command } from '../interfaces/command';
 
 export const Restart: Command = {
-    name: '/restart',
+    name: 'restart',
     description: 'restart` to restart and fix the bot',
-    execute(msg, args) {
-        msg.reply("Restarting...");
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        interaction.reply("Restarting...");
         exec("pm2 restart all", (error, stdout, stderr) => {
             if (error) {
-                msg.reply(error.message);
+                interaction.reply(error.message);
             }
             else if (stderr) {
-                msg.reply(stderr);
+                interaction.reply(stderr);
             }
             else {
-                msg.reply(stdout);
+                interaction.reply(stdout);
             }
         })
     },

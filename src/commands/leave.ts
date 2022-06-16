@@ -1,18 +1,19 @@
+import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Leave: Command = {
-    name: '/leave',
+    name: 'leave',
     description: 'leave` to disconnect the bot and destroy the queue',
-    execute(msg, args) {
-        const channel = msg.member?.voice.channel;
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
         if (player) {
             player.leave();
             global.mediaPlayers.delete(channel.id);
-            msg.reply("Bye Monke :(")
+            interaction.reply({ content: "Bye Monke :(", ephemeral: true })
         } else {
-            msg.reply('Monke cannot leave');
+            interaction.reply({ content: "Monke could not leave :)", ephemeral: true });
         }
     },
 };

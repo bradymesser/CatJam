@@ -1,17 +1,18 @@
+import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Skip: Command = {
-    name: '/skip',
+    name: 'skip',
     description: 'skip` to skip the current playback',
-    execute(msg, args) {
-        const channel = msg.member?.voice.channel;
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
-        if (player && channel) {
+        if (player && player.isPlaying) {
             player.skip();
-            msg.reply("Skipped")
+            interaction.reply({ content: "Skipped", ephemeral: true })
         } else {
-            msg.reply('Nothing to skip');
+            interaction.reply({ content: 'Nothing to skip', ephemeral: true });
         }
     },
 };

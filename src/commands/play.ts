@@ -4,24 +4,30 @@ import searchHelper from '../helpers/yt_search';
 // const searchHelper = require('../helpers/yt_search');
 import MediaPlayer from '../classes/MediaPlayer';
 import { Command } from '../interfaces/command';
+import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from 'discord.js';
 // const MediaPlayer = require('../classes/MediaPlayer');
 
 export const Play: Command = {
-    name: '/play',
+    name: 'play',
     description: 'play` [url | youtube search | random] to queue up an audio source',
-    async execute(msg, args) {
-        const input = args.join(' ');
-        const channel = msg.member?.voice.channel;
+    options: [{
+        name: 'input',
+        description: '[url | youtube search | random]',
+        type: "STRING"
+    }],
+    async execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
+        const input = interaction.options.get('input')?.value as string;
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;
 
         if (!channel) {
-            msg.reply('Join a channel numb nuts');
+            interaction.reply({ content: 'Join a channel 🙉', ephemeral: true });
             return;
         }
         // If no argument is supplied
         if (!input) {
-            msg.reply('Invalid request');
+            interaction.reply({ content: 'Invalid request 🙊', ephemeral: true });
             return;
         }
 
@@ -30,12 +36,12 @@ export const Play: Command = {
             const search = await searchHelper.searchYT(tempUrl);
             const result = search.results;
             if (result.length < 1) {
-                msg.reply("Shit be scuffed sometimes idk why it didnt find anything");
+                interaction.reply({ content: "Didn't find anything lol", ephemeral: true });
                 return;
             }
             tempUrl = result[0].link
             if (!ytdl.validateURL(tempUrl)) {
-                msg.reply('Could not find any matching videos.');
+                interaction.reply({ content: 'Could not find any matching videos 🙈', ephemeral: true });
                 return;
             }
         } else if (input === 'random') {
@@ -49,15 +55,15 @@ export const Play: Command = {
 
         if (global.mediaPlayers.has(channel.id)) {
             const q = global.mediaPlayers.get(channel.id);
-            q?.add(tempUrl, msg);
+            q?.add(tempUrl, interaction);
         } else {
             const q = new MediaPlayer(channel);
-            q.add(tempUrl, msg);
+            q.add(tempUrl, mediaPlayers);
             global.mediaPlayers.set(channel.id, q);
         }
         const player = global.mediaPlayers.get(channel.id);
-        player?.setLastRequest(msg);
-        msg.reply(`Added ${tempUrl} to the queue at position ${player?.getPosition(tempUrl)}`)
+        // player?.setLastRequest(msg);
+        interaction.reply({ content: `Added ${tempUrl} to the queue at position ${player?.getPosition(tempUrl)} 🐵`, ephemeral: true })
         if (!player?.isPlaying) {
             player?.start();
         }

@@ -1,18 +1,19 @@
+import { AudioPlayerStatus } from "@discordjs/voice";
+import { BaseCommandInteraction, GuildMember, VoiceBasedChannel } from "discord.js";
 import { Command } from "../interfaces/command";
 
 export const Resume: Command = {
-    name: '/resume',
+    name: 'resume',
     description: 'resume` to resume playback',
-    execute(msg, args) {
-        const channel = msg.member?.voice.channel;
+    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+        // const channel = (interaction.member as GuildMember).voice.channel;
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
-        if (player && !player.isPlaying) {
-            player.setLastRequest(msg);
+        if (player) {
             player.resume();
-            msg.reply("Resuming")
+            interaction.reply({ content: "Resuming", ephemeral: true })
         } else {
-            msg.reply('Nothing to resume');
+            interaction.reply({ content: 'Nothing to resume', ephemeral: true });
         }
     },
 };
