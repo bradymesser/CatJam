@@ -1,7 +1,7 @@
 import { createReadStream } from 'fs';
 import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
-import { VoiceChannel } from 'discord.js';
+import { BaseCommandInteraction, VoiceChannel } from 'discord.js';
 import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions, PlayerSubscription } from '@discordjs/voice';
 
 export default class MediaPlayer {
@@ -54,7 +54,8 @@ export default class MediaPlayer {
     getPosition(url: string) {
         return this.queue.find(url);
     }
-    add(url: string, msg: any) {
+
+    add(url: string, msg: BaseCommandInteraction) {
         this.queue.enqueue(url, msg);
     }
 
@@ -99,38 +100,6 @@ export default class MediaPlayer {
             console.debug(`Player not playable for sound ${name} \n`);
             this.playNext();
         }
-        // this.soundPlayer.on(AudioPlayerStatus.Idle, () => {
-        //     console.log('11111')
-        //     this.soundPlayer.stop(true);
-        //     console.log('asdf')
-        //     // subscription?.unsubscribe();
-        //     console.log('here')
-        //     this.subscription = this.getConnection()?.subscribe(this.player);
-        //     if (!this.resume()) {
-        //         console.error("Could not unpause player");
-        //         this.resetTimeout();
-        //     } else {
-        //         console.log("Unpaused successfully");
-        //     }
-        //     this.soundPlayer.removeAllListeners();
-        // })
-        // this.soundPlayer.on(AudioPlayerStatus.Playing, () => {
-        //     this.isPlaying = true;
-        //     clearTimeout(this.timeout);
-        // });
-        // this.soundPlayer.on(AudioPlayerStatus.Paused, () => {
-        //     this.isPlaying = false;
-        //     this.soundPlayer.removeAllListeners();
-        // });
-        // this.soundPlayer.on('error', () => {
-        //     this.isPlaying = false;
-        //     this.soundPlayer.removeAllListeners();
-        //     this.playNext();
-        // })
-        // console.log(subscription)
-        // audioPlayer.on(AudioPlayerStatus.Idle, () => {
-
-        // })
     }
 
     playNext() {

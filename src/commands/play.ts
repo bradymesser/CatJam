@@ -49,13 +49,19 @@ export const Play: Command = {
                 tempUrl = `https://youtube.com/watch?v=${search.items[0].id}`;
             }
         }
+        try {
+            await ytdl.getBasicInfo(tempUrl);
+        } catch {
+            interaction.reply({ content: 'I cannot play this video ☹, check if it is externally playable or age restricted', ephemeral: true });
+            return;
+        }
 
         if (global.mediaPlayers.has(channel.id)) {
             const q = global.mediaPlayers.get(channel.id);
             q?.add(tempUrl, interaction);
         } else {
             const q = new MediaPlayer(channel);
-            q.add(tempUrl, mediaPlayers);
+            q.add(tempUrl, interaction);
             global.mediaPlayers.set(channel.id, q);
         }
         const player = global.mediaPlayers.get(channel.id);

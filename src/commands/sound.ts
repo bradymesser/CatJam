@@ -36,6 +36,9 @@ export const Sound: Command = {
             };
             if (global.mediaPlayers.has(channel.id)) {
                 const q = global.mediaPlayers.get(channel.id);
+                if (q?.isPlaying) {
+                    interaction.reply({ content: 'There is a bug playing a sound after playing a YT video, I will still try 😃', ephemeral: true });
+                }
                 q?.playSound(path.resolve(__dirname, `../sounds/${fileName}`));
             } else {
                 const q = new MediaPlayer(channel);
@@ -45,18 +48,5 @@ export const Sound: Command = {
             interaction.reply({ content: `Playing sound ${fileName}`, ephemeral: true });
 
         })
-        // if (input === 'list') {
-        //     fs.readdir(path.resolve(__dirname, "../sounds/"), (err: any, files: string[]) => {
-        //         console.log(files)
-        //         for (const file of files) {
-        //             fileString += `${file}\n`;
-        //         }
-        //         interaction.reply({ content: fileString, ephemeral: true });
-        //     })
-        // } else {
-        //     if (parseInt(input)) {
-        //         let number = parseInt(input);
-        //     }
-        // }
     }
 }

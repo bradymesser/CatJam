@@ -10,15 +10,16 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const YT_KEY = process.env.YT_KEY;
-const ytSearchOptions = {
+const ytSearchOptions: search.YouTubeSearchOptions = {
     maxResults: 1,
     key: YT_KEY
 };
 
 export default {
-    searchYT: async function (txt: any) {
+    searchYT: async function (txt: string) {
         return search(txt, ytSearchOptions);
     },
+
     generateRandomID() {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
