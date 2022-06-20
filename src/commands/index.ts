@@ -10,25 +10,27 @@ import { Restart } from './restart';
 import { Command } from '../interfaces/command';
 import { Bark } from './bark';
 import { Sound } from './sound';
+import { Say } from './say';
 
 const BotCommands: Command[] = [
   Bark,
-  Play,
-  Skip,
-  Stop,
-  Pause,
-  Resume,
   Help,
-  Leave,
   Join,
+  Leave,
+  Pause,
+  Play,
   Restart,
-  Sound
+  Resume,
+  Say,
+  Skip,
+  Sound,
+  Stop,
 ];
 export default BotCommands
 
 // Combine all module descriptions to be used in a help command
 let temp = '';
-for (const command of BotCommands) {
+for (const command of BotCommands.sort()) {
   temp = `${temp}\n${command.description}`;
 }
 global.commandHelp = temp;

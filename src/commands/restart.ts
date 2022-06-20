@@ -4,7 +4,7 @@ import { Command } from '../interfaces/command';
 
 export const Restart: Command = {
     name: 'restart',
-    description: 'restart` to restart and fix the bot',
+    description: '`/restart` to restart and fix the bot',
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
         interaction.reply("Restarting...");
         exec("pm2 restart all", (error, stdout, stderr) => {

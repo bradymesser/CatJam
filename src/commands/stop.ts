@@ -3,7 +3,7 @@ import { Command } from "../interfaces/command";
 
 export const Stop: Command = {
     name: 'stop',
-    description: 'stop` to end playback and destroy the queue',
+    description: '`/stop` to end playback and destroy the queue',
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);

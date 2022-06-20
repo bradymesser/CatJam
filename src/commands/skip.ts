@@ -3,7 +3,7 @@ import { Command } from "../interfaces/command";
 
 export const Skip: Command = {
     name: 'skip',
-    description: 'skip` to skip the current playback',
+    description: '`/skip` to skip the current playback',
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);

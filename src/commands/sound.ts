@@ -6,7 +6,7 @@ import MediaPlayer from "../classes/MediaPlayer";
 
 export const Sound: Command = {
     name: 'sound',
-    description: 'sound` [name | list] to play a sound or list available sounds',
+    description: '`/sound [name | list]` to play a sound or list available sounds',
     options: [{
         name: 'input',
         description: '[name | list]',

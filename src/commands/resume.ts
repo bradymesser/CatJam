@@ -4,7 +4,7 @@ import { Command } from "../interfaces/command";
 
 export const Resume: Command = {
     name: 'resume',
-    description: 'resume` to resume playback',
+    description: '`/resume` to resume playback',
     execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);

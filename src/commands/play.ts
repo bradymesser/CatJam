@@ -7,7 +7,7 @@ import { BaseCommandInteraction, VoiceBasedChannel } from 'discord.js';
 
 export const Play: Command = {
     name: 'play',
-    description: 'play` [url | youtube search | random] to queue up an audio source',
+    description: '`/play [url | youtube search | random]` to queue up an audio source',
     options: [{
         name: 'input',
         description: '[url | youtube search | random]',

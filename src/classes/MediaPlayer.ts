@@ -3,6 +3,7 @@ import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
 import { BaseCommandInteraction, VoiceChannel } from 'discord.js';
 import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions, PlayerSubscription } from '@discordjs/voice';
+import { Readable } from 'stream';
 
 export default class MediaPlayer {
     public queue: MediaQueue;
@@ -90,7 +91,6 @@ export default class MediaPlayer {
     async playSound(name: string) {
         await this.join();
         this.player.stop();
-        // this.subscription?.unsubscribe();
         const connection = this.getConnection();
         console.debug(`Loading file ${name}`)
         const audioResource = createAudioResource(createReadStream(name));
@@ -98,6 +98,19 @@ export default class MediaPlayer {
         connection?.subscribe(this.player);
         if (!this.player.checkPlayable()) {
             console.debug(`Player not playable for sound ${name} \n`);
+            this.playNext();
+        }
+    }
+
+    async playReadable(readable: Readable) {
+        await this.join();
+        this.player.stop();
+        const connection = this.getConnection();
+        const audioResource = createAudioResource(readable);
+        this.player.play(audioResource);
+        connection?.subscribe(this.player);
+        if (!this.player.checkPlayable()) {
+            console.debug(`Could not play readable \n`);
             this.playNext();
         }
     }
@@ -115,8 +128,8 @@ export default class MediaPlayer {
         }
     }
 
-    pause() {
-        this.player.pause();
+    pause(interpolateSilence: boolean = true) {
+        this.player.pause(interpolateSilence);
     }
 
     resume() {
