@@ -12,7 +12,7 @@
 4) Copy your bots auth token and place it in a .env file at the root of this repo under a variable named `TOKEN` ie `TOKEN=[your key here]`
 5) Following the guide here https://developers.google.com/youtube/v3/getting-started register for a youtube-api-v[N] API access key
 6) Copy your youtube api access key and put it in a variable in the .env named `YT_KEY`
-7) To start the bot, run `node index.js` at the root of the repo
+7) To start the bot, run `npm start` at the root of the repo
 
 
 # How to auto launch the bot on startup
