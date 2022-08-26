@@ -19,7 +19,7 @@
     "tweetnacl": "^1.0.3",
     "youtube-search": "^1.1.6",
     "youtube-search-api": "^1.0.11",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.11.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.43"

@@ -41,9 +41,10 @@ export default class MediaPlayer {
             this.resetTimeout();
             this.isPlaying = false;
         });
-        this.player.on('error', () => {
-            console.error('error in player')
+        this.player.on('error', (err) => {
+            console.error(`error in player\nName: ${err.name}\nMessage: ${err.message}`)
             this.isPlaying = false;
+            this.removeCurrentSong();
             this.playNext();
         })
     }
