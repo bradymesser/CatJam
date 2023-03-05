@@ -11,11 +11,13 @@ import { Command } from '../interfaces/command';
 import { Bark } from './bark';
 import { Sound } from './sound';
 import { Say } from './say';
+import { Laugh } from './laugh';
 
 const BotCommands: Command[] = [
   Bark,
   Help,
   Join,
+  Laugh,
   Leave,
   Pause,
   Play,
