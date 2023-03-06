@@ -1,4 +1,4 @@
-import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
+import { ApplicationCommandOptionType, MessageContextMenuCommandInteraction, VoiceBasedChannel } from "discord.js";
 import { Command } from "src/interfaces/command";
 import * as fs from 'fs';
 import * as path from 'path';
@@ -10,9 +10,9 @@ export const Sound: Command = {
     options: [{
         name: 'input',
         description: '[name | list]',
-        type: "STRING"
+        type: ApplicationCommandOptionType.String
     }],
-    async execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+    async execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         const input = interaction.options.get('input')?.value as string;
         if (!input) return;
         var fileString = "Use the number id or sound name:\n";

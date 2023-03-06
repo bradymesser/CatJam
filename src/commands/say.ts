@@ -1,5 +1,5 @@
 // const MediaPlayer = require('../classes/MediaPlayer');
-import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
+import { ApplicationCommandOptionType, MessageContextMenuCommandInteraction, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
 const Gtts = require('gtts');
@@ -10,9 +10,9 @@ export const Say: Command = {
     options: [{
         name: 'input',
         description: '[text]',
-        type: "STRING"
+        type: ApplicationCommandOptionType.String
     }],
-    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+    execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         const input = interaction.options.get('input')?.value as string;
         if (channel === null || channel === undefined) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })

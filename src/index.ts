@@ -10,7 +10,7 @@ declare global {
 }
 
 const bot = new Discord.Client({
-  intents: ['GUILD_MESSAGES', 'GUILDS', 'GUILD_MEMBERS', 'GUILD_PRESENCES', 'GUILD_VOICE_STATES']
+  intents: ['GuildMessages', 'Guilds', 'GuildMembers', 'GuildPresences', 'GuildVoiceStates']
 });
 const commands = new Discord.Collection();
 global.mediaPlayers = new Map();
@@ -29,7 +29,7 @@ bot.on('ready', async () => {
 });
 
 bot.on('interactionCreate', async (interaction: Interaction) => {
-  if (interaction.isCommand() || interaction.isContextMenu()) {
+  if (interaction.isCommand() || interaction.isContextMenuCommand()) {
     const commandName = interaction.commandName;
     const command = BotCommands.find(e => e.name === commandName);
     if (!interaction.guildId) {

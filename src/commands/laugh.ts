@@ -1,4 +1,4 @@
-import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
+import { MessageContextMenuCommandInteraction, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
 import * as path from 'path';
@@ -7,7 +7,7 @@ import * as path from 'path';
 export const Laugh: Command = {
     name: 'laugh',
     description: 'Laugh track',
-    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+    execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (channel === null || channel === undefined) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })
             return;

@@ -1,13 +1,13 @@
-import { BaseCommandInteraction } from "discord.js";
+import { MessageContextMenuCommandInteraction } from "discord.js";
 
 export default class MediaQueue {
-    public queue: { url: string, interaction: BaseCommandInteraction }[];
+    public queue: { url: string, interaction: MessageContextMenuCommandInteraction }[];
 
     constructor() {
         this.queue = [];
     }
 
-    enqueue(url: string, interaction: BaseCommandInteraction) {
+    enqueue(url: string, interaction: MessageContextMenuCommandInteraction) {
         if (this.queue.findIndex(e => e.url === url) === -1) {
             this.queue.push({ url, interaction });
         }

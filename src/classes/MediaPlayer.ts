@@ -1,7 +1,7 @@
 import { createReadStream } from 'fs';
 import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
-import { BaseCommandInteraction, VoiceChannel } from 'discord.js';
+import { MessageContextMenuCommandInteraction, VoiceChannel } from 'discord.js';
 import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions, PlayerSubscription } from '@discordjs/voice';
 import { Readable } from 'stream';
 
@@ -57,7 +57,7 @@ export default class MediaPlayer {
         return this.queue.find(url);
     }
 
-    add(url: string, msg: BaseCommandInteraction) {
+    add(url: string, msg: MessageContextMenuCommandInteraction) {
         this.queue.enqueue(url, msg);
     }
 

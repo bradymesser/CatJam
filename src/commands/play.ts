@@ -3,7 +3,7 @@ import ytdl from 'ytdl-core';
 import searchHelper from '../helpers/yt_search';
 import MediaPlayer from '../classes/MediaPlayer';
 import { Command } from '../interfaces/command';
-import { BaseCommandInteraction, VoiceBasedChannel } from 'discord.js';
+import { ApplicationCommandOptionType, MessageContextMenuCommandInteraction, VoiceBasedChannel } from 'discord.js';
 
 export const Play: Command = {
     name: 'play',
@@ -11,9 +11,9 @@ export const Play: Command = {
     options: [{
         name: 'input',
         description: '[url | youtube search | random]',
-        type: "STRING"
+        type: ApplicationCommandOptionType.String
     }],
-    async execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+    async execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         const input = interaction.options.get('input')?.value as string;
         const isValid = ytdl.validateURL(input);
         var tempUrl = input;

@@ -1,5 +1,5 @@
 // const MediaPlayer = require('../classes/MediaPlayer');
-import { BaseCommandInteraction, VoiceBasedChannel } from "discord.js";
+import { MessageContextMenuCommandInteraction, VoiceBasedChannel } from "discord.js";
 import MediaPlayer from "../classes/MediaPlayer";
 import { Command } from "../interfaces/command";
 
@@ -7,7 +7,7 @@ import { Command } from "../interfaces/command";
 export const Join: Command = {
     name: 'join',
     description: '`/join` to have the bot join',
-    execute(interaction: BaseCommandInteraction, channel: VoiceBasedChannel) {
+    execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })
             return;
