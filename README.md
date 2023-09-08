@@ -1,5 +1,5 @@
 # Requirements
-* Node, initally setup with v17.0.1 but others probably work
+* Node, initally setup with v17.0.1 
 * npm
 * pm2 `npm install -g pm2` will install pm2 globally
 * ts-node `npm install -g ts-node` will install ts-node globally
@@ -27,3 +27,6 @@ For further reference, https://pm2.keymetrics.io/docs/usage/startup/
 # Issues
 * If you encounter an issue, open an issue in this repo and I'll look into it (no guarantees on how long a fix will take)
 * Alternatively, Feel free to open a pull request to either fix issues / improve the bot
+
+# TODO
+* Implement voice commands using https://github.com/evancohen/sonus

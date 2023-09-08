@@ -119,6 +119,7 @@ export default class MediaPlayer {
     playNext() {
         if (this.queue.getLength() > 0) {
             const req = this.next();
+
             if (!req) return;
             const stream = ytdl(req.url, { filter: 'audioonly' });
             this.player.play(createAudioResource(stream));
