@@ -6,6 +6,7 @@ import * as path from 'path';
 export const Bark: Command = {
     name: 'bark',
     description: '`/bark` does what you think it will',
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (channel === null || channel === undefined) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })

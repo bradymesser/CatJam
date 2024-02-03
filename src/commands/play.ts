@@ -8,6 +8,7 @@ import { ApplicationCommandOptionType, MessageContextMenuCommandInteraction, Voi
 export const Play: Command = {
     name: 'play',
     description: '`/play [url | youtube search | random]` to queue up an audio source',
+    requiresVoiceChannel: true,
     options: [{
         name: 'input',
         description: '[url | youtube search | random]',

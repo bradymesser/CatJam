@@ -12,6 +12,7 @@ import { Bark } from './bark';
 import { Sound } from './sound';
 import { Say } from './say';
 import { Laugh } from './laugh';
+import { Ask } from './ask';
 
 const BotCommands: Command[] = [
   Bark,
@@ -27,6 +28,7 @@ const BotCommands: Command[] = [
   Skip,
   Sound,
   Stop,
+  Ask
 ];
 export default BotCommands
 

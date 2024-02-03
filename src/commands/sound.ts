@@ -12,6 +12,7 @@ export const Sound: Command = {
         description: '[name | list]',
         type: ApplicationCommandOptionType.String
     }],
+    requiresVoiceChannel: true,
     async execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         const input = interaction.options.get('input')?.value as string;
         if (!input) return;

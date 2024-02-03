@@ -7,6 +7,7 @@ import * as path from 'path';
 export const Laugh: Command = {
     name: 'laugh',
     description: 'Laugh track',
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (channel === null || channel === undefined) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })

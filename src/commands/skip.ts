@@ -4,6 +4,7 @@ import { Command } from "../interfaces/command";
 export const Skip: Command = {
     name: 'skip',
     description: '`/skip` to skip the current playback',
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);

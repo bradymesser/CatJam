@@ -12,6 +12,7 @@ export const Say: Command = {
         description: '[text]',
         type: ApplicationCommandOptionType.String
     }],
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         const input = interaction.options.get('input')?.value as string;
         if (channel === null || channel === undefined) {

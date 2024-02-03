@@ -7,6 +7,7 @@ import { Command } from "../interfaces/command";
 export const Join: Command = {
     name: 'join',
     description: '`/join` to have the bot join',
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) {
             interaction.reply({ content: 'Join a channel first', ephemeral: true })

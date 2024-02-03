@@ -4,6 +4,7 @@ import { Command } from "../interfaces/command";
 
 export const Pause: Command = {
     name: 'pause',
+    requiresVoiceChannel: true,
     description: '`/pause` to pause the playback at its current position',
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;

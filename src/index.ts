@@ -3,10 +3,12 @@ dotenv.config();
 import Discord, { Interaction } from 'discord.js'
 import BotCommands from './commands/index';
 import MediaPlayer from './classes/MediaPlayer';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 declare global {
   var mediaPlayers: Map<string, MediaPlayer>;
   var commandHelp: string;
+  var genAI: GoogleGenerativeAI
 }
 
 const bot = new Discord.Client({
@@ -14,6 +16,7 @@ const bot = new Discord.Client({
 });
 const commands = new Discord.Collection();
 global.mediaPlayers = new Map();
+global.genAI = new GoogleGenerativeAI(process.env.PALM_API_KEY || '')
 
 for (const command of BotCommands) {
   commands.set(command.name, command)
@@ -45,7 +48,7 @@ bot.on('interactionCreate', async (interaction: Interaction) => {
     guild?.members.fetch(interaction.user);
     const member = await guild?.members.fetch(interaction.user);
     const voiceChannel = member?.voice.channel; // don't need to get it this way anymore; fixed intents array
-    if (!voiceChannel) {
+    if (!voiceChannel && command?.requiresVoiceChannel) {
       interaction.reply({ content: "voice channel is null", ephemeral: true });
       return;
     }

@@ -4,6 +4,7 @@ import { Command } from "../interfaces/command";
 export const Stop: Command = {
     name: 'stop',
     description: '`/stop` to end playback and destroy the queue',
+    requiresVoiceChannel: true,
     execute(interaction: MessageContextMenuCommandInteraction, channel: VoiceBasedChannel) {
         if (!channel) return;
         const player = global.mediaPlayers.get(channel.id);
