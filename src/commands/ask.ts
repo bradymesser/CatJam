@@ -32,8 +32,8 @@ export const Ask: Command = {
         const size = 2000;
         const numChunks = Math.ceil(text.length / size)
         for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-        //   chunks[i] = str.substr(o, size)
-        interaction.followUp(text.substring(0, size))
+        const chunk = text.substring(o, i === numChunks - 1 ? text.length : size) 
+        interaction.followUp(chunk)
         }
     },
 };
