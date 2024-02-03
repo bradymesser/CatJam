@@ -41,7 +41,7 @@ export const Sound: Command = {
                 }
                 q?.playSound(path.resolve(__dirname, `../sounds/${fileName}`));
             } else {
-                const q = new MediaPlayer(channel);
+                const q = new MediaPlayer(channel, interaction.channel);
                 q?.playSound(path.resolve(__dirname, `../sounds/${fileName}`));
                 global.mediaPlayers.set(channel.id, q);
             }

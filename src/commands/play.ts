@@ -60,7 +60,7 @@ export const Play: Command = {
             const q = global.mediaPlayers.get(channel.id);
             q?.add(tempUrl, interaction);
         } else {
-            const q = new MediaPlayer(channel);
+            const q = new MediaPlayer(channel, interaction.channel);
             q.add(tempUrl, interaction);
             global.mediaPlayers.set(channel.id, q);
         }

@@ -16,7 +16,7 @@ export const Laugh: Command = {
             const q = global.mediaPlayers.get(channel.id);
             q?.playSound(path.resolve(__dirname, "../sounds/laugh.mp3"));
         } else {
-            const q = new MediaPlayer(channel);
+            const q = new MediaPlayer(channel, interaction.channel);
             q?.playSound(path.resolve(__dirname, "../sounds/laugh.mp3"));
             global.mediaPlayers.set(channel.id, q);
         }

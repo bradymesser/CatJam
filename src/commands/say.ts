@@ -28,7 +28,7 @@ export const Say: Command = {
             const q = global.mediaPlayers.get(channel.id);
             q?.playReadable(gtts.stream());
         } else {
-            const q = new MediaPlayer(channel);
+            const q = new MediaPlayer(channel, interaction.channel);
             q?.playReadable(gtts.stream());
             global.mediaPlayers.set(channel.id, q);
         }

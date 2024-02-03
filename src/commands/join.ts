@@ -17,7 +17,7 @@ export const Join: Command = {
             player.leave();
             player.join();
         } else {
-            const q = new MediaPlayer(channel);
+            const q = new MediaPlayer(channel, interaction.channel);
             global.mediaPlayers.set(channel.id, q);
             q.join();
         }

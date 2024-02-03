@@ -1,7 +1,7 @@
 import { createReadStream } from 'fs';
 import MediaQueue from './MediaQueue';
 import ytdl from 'ytdl-core';
-import { MessageContextMenuCommandInteraction, VoiceChannel } from 'discord.js';
+import { MessageContextMenuCommandInteraction, TextBasedChannel, VoiceChannel } from 'discord.js';
 import { AudioPlayer, AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, getVoiceConnection, joinVoiceChannel, JoinVoiceChannelOptions, PlayerSubscription } from '@discordjs/voice';
 import { Readable } from 'stream';
 
@@ -14,15 +14,17 @@ export default class MediaPlayer {
     public player: AudioPlayer;
     public soundPlayer: AudioPlayer;
 
+    private messageChannel?: TextBasedChannel | null
     private timeout?: NodeJS.Timeout;
     private subscription?: PlayerSubscription;
 
-    constructor(channel: any) {
+    constructor(channel: any, textChannel: TextBasedChannel | null) {
         this.queue = new MediaQueue();
         this.channel = channel;
         this.isPlaying = false;
         this.lastRequest = null;
         this.first = true;
+        this.messageChannel = textChannel;
         this.player = createAudioPlayer();
         this.soundPlayer = createAudioPlayer();
         this.player.on(AudioPlayerStatus.Idle, () => {
@@ -82,6 +84,14 @@ export default class MediaPlayer {
                 guildId: this.channel.guild.id,
                 adapterCreator: this.channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator
             });
+            this.getConnection()?.on('stateChange', (oldState, newState) => {
+                if (newState.status === 'disconnected') {
+                    if (this.messageChannel) {
+                        this.messageChannel.send('Frick you 😠')
+                    }
+                    this.leave();
+                }
+            })
         }
     }
     async start() {

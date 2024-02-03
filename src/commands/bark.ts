@@ -15,7 +15,7 @@ export const Bark: Command = {
             const q = global.mediaPlayers.get(channel.id);
             q?.playSound(path.resolve(__dirname, "../sounds/lucas_bark.mp3"));
         } else {
-            const q = new MediaPlayer(channel);
+            const q = new MediaPlayer(channel, interaction.channel);
             q?.playSound(path.resolve(__dirname, "../sounds/lucas_bark.mp3"));
             global.mediaPlayers.set(channel.id, q);
         }
