@@ -3,10 +3,11 @@ dotenv.config();
 import Discord, { Interaction } from 'discord.js'
 import BotCommands from './commands/index';
 import MediaPlayer from './classes/MediaPlayer';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { ChatSession, GoogleGenerativeAI } from '@google/generative-ai';
 
 declare global {
   var mediaPlayers: Map<string, MediaPlayer>;
+  var guildChats: Map<string, ChatSession>;
   var commandHelp: string;
   var genAI: GoogleGenerativeAI
 }
@@ -17,6 +18,7 @@ const bot = new Discord.Client({
 const commands = new Discord.Collection();
 global.mediaPlayers = new Map();
 global.genAI = new GoogleGenerativeAI(process.env.PALM_API_KEY || '')
+global.guildChats = new Map();
 
 for (const command of BotCommands) {
   commands.set(command.name, command)
