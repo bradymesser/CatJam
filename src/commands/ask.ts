@@ -15,7 +15,11 @@ export const Ask: Command = {
         const model = genAI.getGenerativeModel({model: 'gemini-pro'});
         const input = interaction.options.get('input')?.value as string;
         interaction.reply(`\`${input}\``)
-        let chat = global.guildChats.get(channel.guildId);
+        if (interaction.guildId === null) {
+            console.error('No guild id')
+            return
+        }
+        let chat = global.guildChats.get(interaction.guildId);
 
         if (!chat) {  
             chat = model.startChat({
@@ -30,7 +34,7 @@ export const Ask: Command = {
                     }
                 ]
             })
-            global.guildChats.set(channel.guildId, chat);
+            global.guildChats.set(interaction.guildId, chat);
         }
         try {
             const result = await chat.sendMessage(input);

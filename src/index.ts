@@ -47,7 +47,6 @@ bot.on('interactionCreate', async (interaction: Interaction) => {
       return;
     }
 
-    guild?.members.fetch(interaction.user);
     const member = await guild?.members.fetch(interaction.user);
     const voiceChannel = member?.voice.channel; // don't need to get it this way anymore; fixed intents array
     if (!voiceChannel && command?.requiresVoiceChannel) {
