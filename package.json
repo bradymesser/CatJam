@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "live": "nodemon src/index.ts"
+    "live": "nodemon src/index.ts",
+    "docker-build": "docker build -t catjam .",
+    "docker-run": "docker run catjam"
   },
   "author": "Brady",
   "license": "ISC",
