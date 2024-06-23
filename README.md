@@ -1,3 +1,10 @@
+# Using Docker
+* Run `docker build -t catjam .`
+* Once the image is built, run `docker run catjam`
+
+Alternatively, you can run the bot without docker following the steps below
+
+
 # Requirements
 * Node, initally setup with v17.0.1 
 * npm
