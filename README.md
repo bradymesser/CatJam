@@ -1,9 +1,18 @@
+
+# Environment variable setup
+* Create a file named `.env`
+* Copy the contents of `example.env` and paste it into `.env`
+* Fill in the values for each of your keys
+* `TOKEN` is the api key of your discord bot
+* `YT_KEY` is the api key for your youtube-api key
+* `PALM_API_KEY` is optional, but required if you want the `/ask` command to work
+* See the section labeled `Setup` for more information
+
 # Using Docker
 * Run `docker build -t catjam .`
 * Once the image is built, run `docker run catjam`
 
 Alternatively, you can run the bot without docker following the steps below
-
 
 # Requirements
 * Node, initally setup with v17.0.1 
