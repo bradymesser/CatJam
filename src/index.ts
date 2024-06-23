@@ -46,7 +46,7 @@ bot.on('interactionCreate', async (interaction: Interaction) => {
       interaction.reply({ content: "member id null", ephemeral: true });
       return;
     }
-
+    console.log('Interaction created by ', interaction.user)
     const member = await guild?.members.fetch(interaction.user);
     const voiceChannel = member?.voice.channel; // don't need to get it this way anymore; fixed intents array
     if (!voiceChannel && command?.requiresVoiceChannel) {
