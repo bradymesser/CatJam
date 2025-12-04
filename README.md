@@ -1,3 +1,4 @@
+# I have not updated this bot recently, the last I checked the youtube playback functionality was broken
 
 # Environment variable setup
 * Create a file named `.env`
